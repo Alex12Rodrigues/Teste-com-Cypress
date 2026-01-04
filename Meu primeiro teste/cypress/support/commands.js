@@ -23,3 +23,23 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+
+Cypress.Commands.add('loginCerto', (email, senha) => {
+    cy.visit('https://front.serverest.dev/login')
+    cy.get('[data-testid="email"]').type(email)
+    cy.get('[data-testid="senha"]').type(senha)
+    cy.get('[data-testid="entrar"]').click()
+    cy.get(':nth-child(1) > .card-body > div > [href="/minhaListaDeProdutos"] > [data-testid="adicionarNaLista"]').click()
+    cy.get('h1').contains('Lista de Compras')
+})
+
+
+
+Cypress.Commands.add('loginErrado', (email, senhaErro) => {
+    cy.visit('https://front.serverest.dev/login')
+    cy.get('[data-testid="email"]').type(email)
+    cy.get('[data-testid="senha"]').type(senhaErro)
+    cy.get('[data-testid="entrar"]').click()
+    cy.get('.alert > :nth-child(2)').contains('Email e/ou senha inválidos')
+})
